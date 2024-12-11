@@ -11,9 +11,19 @@ const btnCount = document.querySelector('.increment_count');
 let pressedCount = 0;
 let triggeredCount = 0;
 
-const throttledCount = _.throttle(() => {
+const myThrottle = (callback, delay) => {
+  let last = 0;
+
+  return function (...args) {
+    let now = new Date().getTime();
+    if (now - last < delay) return;
+    last = now;
+    return callback(...args);
+  };
+};
+const throttledCount = myThrottle(() => {
   btnCount.innerHTML = ++triggeredCount;
-}, 800);
+}, 1000);
 btn.addEventListener('click', () => {
   btnPress.innerHTML = ++pressedCount;
   throttledCount();

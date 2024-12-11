@@ -11,7 +11,17 @@ const btnCount = document.querySelector('.increment_count');
 let pressedCount = 0;
 let triggeredCount = 0;
 
-const debouncedCount = _.debounce(() => {
+const mydebounce = (callback, delay) => {
+  let timer;
+
+  return function (...args) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
+};
+const debouncedCount = mydebounce(() => {
   btnCount.innerHTML = ++triggeredCount;
 }, 800);
 btn.addEventListener('click', () => {
